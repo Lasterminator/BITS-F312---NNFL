@@ -1,0 +1,11 @@
+data = xlsread('data.xlsx');
+X = [ones(size(data, 1), 1) data(:, 1:2)];
+X(:, 2) = (X(:, 2) - mean(X(:, 2)))/std(X(:, 2));
+X(:, 3) = (X(:, 3) - mean(X(:, 3)))/std(X(:, 3));
+Y = data(:, 3);
+Y = (Y - mean(Y))/std(Y);
+w = inv((X')*X)*((X')*Y)               
+w_bgd = [0.0000    0.0781    0.3606];   
+w_sgd = [-0.0018    0.0905    0.3580];  
+e1 = sqrt(sum((w' - w_bgd).^2))        
+e2 = sqrt(sum((w' - w_sgd).^2))         
